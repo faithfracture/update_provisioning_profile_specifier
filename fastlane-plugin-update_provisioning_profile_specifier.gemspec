@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'fastlane/plugin/update_provisioning_profile_specifier/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'fastlane-plugin-update_provisioning_profile_specifier'
+  spec.name          = 'update_provisioning_profile_specifier'
   spec.version       = Fastlane::UpdateProvisioningProfileSpecifier::VERSION
   spec.author        = %q{Jordan Bondo}
   spec.email         = %q{jordan.bondo@gmail.com}
