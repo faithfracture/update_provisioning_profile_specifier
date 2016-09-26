@@ -14,7 +14,7 @@ fastlane add_plugin update_provisioning_profile_specifier
 
 Update the provisioning profile in the Xcode Project file for a specified target
 
-**Note to author:** Add a more detailed description about this plugin here. If your plugin contains multiple actions, make sure to mention them here.
+Xcode 8 added a PROVISIONING_PROFILE_SPECIFIER build setting that is (apparently) required at build-time (even with Automatic Codesigning disabled). I have several branded versions of the apps that I work on and most of the changes are scripted to be done during the build phase (change the app ID, provisioning profile, team, etc.). With previous versions of Xcode, I was able to sign the apps with whatever provisioning profile I wanted, but with Xcode 8 that doesn't work anymore. This plugin allows you to change the PROVISIONING_PROFILE_SPECIFIER in your Xcode project so that you can continue to script changes to be made a build time and use whatever provisioning profile you like without having to maintain separate targets with separate provisioning profile specifiers.
 
 ## Example
 
