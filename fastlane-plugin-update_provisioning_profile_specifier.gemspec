@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = %q{jordan.bondo@gmail.com}
 
   spec.summary       = %q{Update the provisioning profile in the Xcode Project file for a specified target}
-  # spec.homepage      = "https://github.com/<GITHUB_USERNAME>/fastlane-plugin-update_provisioning_profile_specifier"
+  spec.homepage      = "https://github.com/faithfracture/update_provisioning_profile_specifier"
   spec.license       = "MIT"
 
   spec.files         = Dir["lib/**/*"] + %w(README.md LICENSE)
