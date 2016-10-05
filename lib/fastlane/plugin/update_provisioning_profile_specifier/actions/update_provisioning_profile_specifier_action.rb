@@ -26,8 +26,10 @@ module Fastlane
           t.build_configuration_list.build_configurations.each do |config|
             if (params[:append])
               cur = config.build_settings[specifier_key]
+              config.build_settings[specifier_key] = cur + params[:new_specifier]
+            else
+              config.build_settings[specifier_key] = params[:new_specifier]
             end
-            config.build_settings[specifier_key] = cur + params[:new_specifier]
           end
         end
         project.save
