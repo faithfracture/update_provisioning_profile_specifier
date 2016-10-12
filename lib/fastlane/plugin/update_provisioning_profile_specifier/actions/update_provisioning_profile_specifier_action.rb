@@ -11,7 +11,7 @@ module Fastlane
 
         # validate folder
         project_file_path = File.join(pdir, "project.pbxproj")
-        UI.user_error!("Could not find path to project config '#{project_file_path}'. Pass the path to your project (NOT workspace!)") unless File.exists?(project_file_path)
+        UI.user_error!("Could not find path to project config '#{project_file_path}'. Pass the path to your project (NOT workspace!)") unless File.exist?(project_file_path)
         target = params[:target]
 
         project = Xcodeproj::Project.open(pdir)
@@ -24,7 +24,7 @@ module Fastlane
           end
 
           t.build_configuration_list.build_configurations.each do |config|
-            if (params[:append])
+            if params[:append]
               cur = config.build_settings[specifier_key]
               config.build_settings[specifier_key] = cur + params[:new_specifier]
             else
@@ -48,32 +48,36 @@ module Fastlane
       def self.available_options
         [
           FastlaneCore::ConfigItem.new(
-                     key: :xcodeproj,
-                env_name: "UPDATE_PROVISIONING_PROFILE_SPECIFIER_XCODEPROJ",
-             description: "Path to the .xcodeproj file",
-                optional: true,
-            verify_block: proc do |value|
-                            UI.user_error!("Path to Xcode project file is invalid") unless File.exist?(value)
-                          end),
+            key: :xcodeproj,
+       env_name: "UPDATE_PROVISIONING_PROFILE_SPECIFIER_XCODEPROJ",
+    description: "Path to the .xcodeproj file",
+       optional: true,
+   verify_block: proc do |value|
+                   UI.user_error!("Path to Xcode project file is invalid") unless File.exist?(value)
+                 end
+          ),
           FastlaneCore::ConfigItem.new(
-                    key: :target,
-               env_name: "UPDATE_PROVISIONING_PROFILE_SPECIFIER_TARGET", 
-            description: "The target for which to change the Provisioning Profile Specifier. If unspecified the change will be applied to all targets",
-               optional: true),
+            key: :target,
+       env_name: "UPDATE_PROVISIONING_PROFILE_SPECIFIER_TARGET",
+    description: "The target for which to change the Provisioning Profile Specifier. If unspecified the change will be applied to all targets",
+       optional: true
+          ),
           FastlaneCore::ConfigItem.new(
-                    key: :new_specifier,
-               env_name: "UPDATE_PROVISIONING_PROFILE_SPECIFIER_NEW_SPECIFIER",
-            description: "Name of the new provisioning profile specifier to use, or to append to the existing value",
-               optional: false),
+            key: :new_specifier,
+       env_name: "UPDATE_PROVISIONING_PROFILE_SPECIFIER_NEW_SPECIFIER",
+    description: "Name of the new provisioning profile specifier to use, or to append to the existing value",
+       optional: false
+          ),
           FastlaneCore::ConfigItem.new(
-                    key: :append,
-               env_name: "UPDATE_PROVISIONING_PROFILE_SPECIFIER_APPEND",
-            description: ["True to append 'new_specifier' to the end of the exxisting specifier.",
-                         "This works well if you have provisioning profiles for the same project with different configurations, ",
-                         "'MyApp' and 'MyAppBeta', for example"].join('\n'),
-               optional: true,
-          default_value: false,
-              is_string: false)
+            key: :append,
+       env_name: "UPDATE_PROVISIONING_PROFILE_SPECIFIER_APPEND",
+    description: ["True to append 'new_specifier' to the end of the exxisting specifier.",
+                  "This works well if you have provisioning profiles for the same project with different configurations, ",
+                  "'MyApp' and 'MyAppBeta', for example"].join('\n'),
+       optional: true,
+  default_value: false,
+      is_string: false
+          )
         ]
       end
 
