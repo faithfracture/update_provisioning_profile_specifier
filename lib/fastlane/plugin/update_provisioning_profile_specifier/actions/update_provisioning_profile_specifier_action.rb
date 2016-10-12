@@ -53,7 +53,7 @@ module Fastlane
              description: "Path to the .xcodeproj file",
                 optional: true,
             verify_block: proc do |value|
-                            UI.user_error("Path to Xcode project file is invalid") unless File.exist?(value)
+                            UI.user_error!("Path to Xcode project file is invalid") unless File.exist?(value)
                           end),
           FastlaneCore::ConfigItem.new(
                     key: :target,
