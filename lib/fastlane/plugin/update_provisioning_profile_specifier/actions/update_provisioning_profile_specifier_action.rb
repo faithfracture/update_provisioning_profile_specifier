@@ -13,6 +13,7 @@ module Fastlane
         project_file_path = File.join(pdir, "project.pbxproj")
         UI.user_error!("Could not find path to project config '#{project_file_path}'. Pass the path to your project (NOT workspace!)") unless File.exist?(project_file_path)
         target = params[:target]
+        configuration = params[:configuration]
 
         project = Xcodeproj::Project.open(pdir)
         project.targets.each do |t|
@@ -24,6 +25,13 @@ module Fastlane
           end
 
           t.build_configuration_list.build_configurations.each do |config|
+            if !configuration || config.name.match(configuration)
+              UI.success("Updating configuration #{config.name}")
+            else
+              UI.important("Skipping configuration #{config.name} as it doesn't match the filter '#{configuration}'")
+              next
+            end
+
             if params[:append]
               cur = config.build_settings[specifier_key]
               config.build_settings[specifier_key] = cur + params[:new_specifier]
@@ -60,6 +68,12 @@ module Fastlane
             key: :target,
        env_name: "UPDATE_PROVISIONING_PROFILE_SPECIFIER_TARGET",
     description: "The target for which to change the Provisioning Profile Specifier. If unspecified the change will be applied to all targets",
+       optional: true
+          ),
+          FastlaneCore::ConfigItem.new(
+            key: :configuration,
+       env_name: "UPDATE_PROVISIONING_PROFILE_SPECIFIER_CONFIGURATION",
+    description: "The configuration for which to change the Provisioning Profile Specifier. If unspecified the change will be applied to all configurations",
        optional: true
           ),
           FastlaneCore::ConfigItem.new(
