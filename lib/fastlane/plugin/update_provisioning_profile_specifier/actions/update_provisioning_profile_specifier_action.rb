@@ -17,7 +17,7 @@ module Fastlane
 
         project = Xcodeproj::Project.open(pdir)
         project.targets.each do |t|
-          if !target || t.name.match(target)
+          if !target || t.name == target
             UI.success("Updating target #{t.name}")
           else
             UI.important("Skipping target #{t.name} as it doesn't match the filter '#{target}'")
